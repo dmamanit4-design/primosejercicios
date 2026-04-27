@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Uso de los Números Primos en la Seguridad Informática</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f7fb;
+    color: #1a2a44;
+}
+
+.container {
+    width: 900px;
+    margin: auto;
+    background-color: white;
+    border: 2px solid #003366;
+    padding: 20px;
+}
+
+.header {
+    background-color: #003366;
+    color: white;
+    text-align: center;
+    padding: 15px;
+}
+
+h1 {
+    margin: 0;
+}
+
+h2 {
+    color: #003366;
+    border-bottom: 1px solid #003366;
+    padding-bottom: 5px;
+}
+
+.section {
+    margin-top: 20px;
+}
+
+.code {
+    background-color: #e6ecf5;
+    border: 1px solid #003366;
+    padding: 10px;
+    font-family: monospace;
+    white-space: pre-wrap;
+}
+
+.form-box {
+    background-color: #e6ecf5;
+    border: 1px solid #003366;
+    padding: 15px;
+}
+
+input[type="text"], input[type="number"] {
+    width: 95%;
+    padding: 6px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #003366;
+}
+
+input[type="submit"] {
+    background-color: #003366;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    cursor: pointer;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+    <h1>El Uso de los Números Primos en la Seguridad Informática</h1>
+</div>
+
+<div class="section">
+<h2>Introducción</h2>
+<p>
+En la actualidad, la seguridad informática es un elemento esencial en la vida digital. El crecimiento del uso de internet ha incrementado la cantidad de datos sensibles que se almacenan en sistemas informáticos. En este contexto, las matemáticas juegan un papel clave, especialmente los números primos, los cuales son fundamentales en múltiples técnicas de criptografía utilizadas para proteger la información.
+</p>
+</div>
+
+<div class="section">
+<h2>Importancia de la Seguridad en las Contraseñas</h2>
+<p>
+Las contraseñas constituyen la primera línea de defensa frente a accesos no autorizados. Una contraseña segura debe poseer suficiente complejidad para evitar ataques como la fuerza bruta o ataques de diccionario.
+</p>
+<p>
+El uso de contraseñas débiles puede permitir que atacantes accedan a cuentas personales, sistemas empresariales o incluso infraestructuras críticas. Por ello, es fundamental utilizar combinaciones de caracteres variadas, incluyendo letras mayúsculas, minúsculas, números y símbolos, además de una longitud adecuada.
+</p>
+</div>
+
+<div class="section">
+<h2>Casos Reales de Robo de Contraseñas</h2>
+<ul>
+<li><b>Yahoo (2013-2014):</b> Se vieron comprometidas aproximadamente 3 mil millones de cuentas.</li>
+<li><b>LinkedIn (2012):</b> Más de 100 millones de contraseñas fueron filtradas.</li>
+<li><b>Equifax (2017):</b> Se expusieron datos personales de millones de usuarios.</li>
+</ul>
+</div>
+
+<div class="section">
+<h2>Uso de Números Primos en Seguridad</h2>
+<p>
+Los números primos son esenciales en la criptografía moderna debido a que presentan propiedades matemáticas que dificultan la descomposición de números grandes en factores primos.
+</p>
+
+<h3>Ejemplo en Octave</h3>
+
+<div class="code">
+% Entradas
+n = input('¿Cuántos números primos usar?: ');
+L = input('¿Longitud de la contraseña?: ');
+
+rand('seed', sum(100*clock));
+
+% Generar primos
+contador = 0;
+num = 2;
+primos = [];
+
+while contador &lt; n
+  es_primo = 1;
+
+  for i = 2:sqrt(num)
+    if mod(num, i) == 0
+      es_primo = 0;
+      break;
+    endif
+  endfor
+
+  if es_primo == 1
+    primos = [primos num];
+    contador = contador + 1;
+  endif
+
+  num = num + 1;
+endwhile
+
+% Conjuntos de caracteres
+mayus = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+minus = 'abcdefghijklmnopqrstuvwxyz';
+numeros = '0123456789';
+simbolos = '!@#$%^&*';
+
+todos = [mayus minus numeros simbolos];
+
+password = '';
+
+% Seguridad mínima
+password = [password mayus(randi(length(mayus)))];
+password = [password minus(randi(length(minus)))];
+password = [password numeros(randi(length(numeros)))];
+password = [password simbolos(randi(length(simbolos)))];
+
+% Uso de primos
+i = 1;
+while length(password) &lt; L
+  idx = mod(primos(i), length(todos)) + 1;
+  password = [password todos(idx)];
+
+  i = i + 1;
+  if i &gt; length(primos)
+    i = 1;
+  endif
+endwhile
+
+password = password(randperm(length(password)));
+
+disp(password);
+</div>
+
+<p>
+En este código, los números primos se utilizan para generar índices que permiten seleccionar caracteres dentro de un conjunto. Esto introduce una mayor variabilidad en la construcción de la contraseña.
+</p>
+
+</div>
+
+<div class="section">
+<h2>Observación</h2>
+<p>
+Es importante destacar que el uso de números primos en este ejemplo es relativamente básico. En aplicaciones reales, se emplean en algoritmos más complejos como el cifrado RSA, protocolos HTTPS, firmas digitales y sistemas de autenticación avanzada.
+</p>
+</div>
+
+<div class="section">
+<h2>Formulario de Ejemplo</h2>
+<div class="form-box">
+<form>
+<label>Cantidad de números primos:</label><br>
+<input type="number"><br>
+
+<label>Longitud de la contraseña:</label><br>
+<input type="number"><br>
+
+<label>Nombre del usuario:</label><br>
+<input type="text"><br>
+
+<input type="submit" value="Enviar">
+</form>
+</div>
+</div>
+
+<div class="section">
+<h2>Conclusiones</h2>
+<p>
+Los números primos desempeñan un papel fundamental en la seguridad informática. Su uso permite desarrollar sistemas criptográficos robustos que protegen la información frente a amenazas.
+</p>
+<p>
+Aunque el ejemplo en Octave es sencillo, ilustra cómo las matemáticas pueden contribuir a mejorar la seguridad. La combinación de buenas prácticas en contraseñas y fundamentos matemáticos es esencial en el entorno digital.
+</p>
+</div>
+
+</div>
+
+</body>
+</html>

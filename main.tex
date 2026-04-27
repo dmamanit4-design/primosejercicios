@@ -1,0 +1,156 @@
+\documentclass[12pt]{article}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+
+\title{El Uso de los Números Primos en la Seguridad Informática}
+\author{}
+\date{}
+
+% Colores para el código
+\definecolor{codebg}{rgb}{0.93,0.93,0.93}
+
+\lstset{
+language=Matlab,
+backgroundcolor=\color{codebg},
+basicstyle=\ttfamily\small,
+keywordstyle=\color{blue},
+commentstyle=\color{gray},
+stringstyle=\color{red},
+breaklines=true,
+frame=single,
+rulecolor=\color{black},
+xleftmargin=5pt,
+xrightmargin=5pt
+}
+
+\begin{document}
+
+\maketitle
+
+\section{Introducción}
+
+En la actualidad, la seguridad informática es un elemento esencial en la vida digital. El crecimiento del uso de internet ha incrementado la cantidad de datos sensibles que se almacenan en sistemas informáticos. En este contexto, las matemáticas juegan un papel clave, especialmente los números primos, los cuales son fundamentales en múltiples técnicas de criptografía utilizadas para proteger la información.
+
+\section{Importancia de la Seguridad en las Contraseñas}
+
+Las contraseñas constituyen la primera línea de defensa frente a accesos no autorizados. Una contraseña segura debe poseer suficiente complejidad para evitar ataques como la fuerza bruta o ataques de diccionario.
+
+El uso de contraseñas débiles puede permitir que atacantes accedan a cuentas personales, sistemas empresariales o incluso infraestructuras críticas. Por ello, es fundamental utilizar combinaciones de caracteres variadas, incluyendo letras mayúsculas, minúsculas, números y símbolos, además de una longitud adecuada.
+
+\section{Casos Reales de Robo de Contraseñas}
+
+Existen numerosos casos en los que la vulneración de contraseñas ha provocado grandes pérdidas:
+
+\begin{itemize}
+\item \textbf{Yahoo (2013-2014):} Se vieron comprometidas aproximadamente 3 mil millones de cuentas, afectando a usuarios a nivel global.
+\item \textbf{LinkedIn (2012):} Más de 100 millones de contraseñas fueron filtradas debido a prácticas inseguras de almacenamiento.
+\item \textbf{Equifax (2017):} Se expusieron datos personales de millones de usuarios, generando consecuencias económicas y legales significativas.
+\end{itemize}
+
+Estos incidentes reflejan la importancia de aplicar medidas de seguridad robustas.
+
+\section{Uso de Números Primos en Seguridad}
+
+Los números primos son esenciales en la criptografía moderna debido a que presentan propiedades matemáticas que dificultan la descomposición de números grandes en factores primos. Este principio es la base de algoritmos de cifrado ampliamente utilizados.
+
+\subsection{Ejemplo en Octave}
+
+A continuación se presenta un código en Octave que utiliza números primos para generar una contraseña:
+
+\begin{lstlisting}
+% Entradas
+n = input('¿Cuántos números primos usar?: ');
+L = input('¿Longitud de la contraseña?: ');
+
+rand('seed', sum(100*clock));
+
+% Generar primos
+contador = 0;
+num = 2;
+primos = [];
+
+while contador < n
+es_primo = 1;
+
+for i = 2:sqrt(num)
+if mod(num, i) == 0
+es_primo = 0;
+break;
+endif
+endfor
+
+if es_primo == 1
+primos = [primos num];
+contador = contador + 1;
+endif
+
+num = num + 1;
+endwhile
+
+% Conjuntos de caracteres
+mayus = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+minus = 'abcdefghijklmnopqrstuvwxyz';
+numeros = '0123456789';
+simbolos = '!@#$%^&*';
+
+todos = [mayus minus numeros simbolos];
+
+password = '';
+
+% Seguridad mínima
+password = [password mayus(randi(length(mayus)))];
+password = [password minus(randi(length(minus)))];
+password = [password numeros(randi(length(numeros)))];
+password = [password simbolos(randi(length(simbolos)))];
+
+% Uso de primos
+i = 1;
+while length(password) < L
+idx = mod(primos(i), length(todos)) + 1;
+password = [password todos(idx)];
+
+i = i + 1;
+if i > length(primos)
+i = 1;
+endif
+endwhile
+
+password = password(randperm(length(password)));
+
+disp(password);
+\end{lstlisting}
+
+\subsection{Explicación}
+
+En este código, los números primos se utilizan para generar índices que permiten seleccionar caracteres dentro de un conjunto. Esto introduce una mayor variabilidad en la construcción de la contraseña, reduciendo patrones simples y mejorando su complejidad.
+
+El uso de un fondo diferenciado en el código permite distinguir claramente entre la explicación teórica y la implementación práctica.
+
+\section{Observación}
+
+Es importante destacar que el uso de números primos en este ejemplo es relativamente básico. Aunque contribuye a generar variabilidad, no constituye un sistema criptográfico robusto.
+
+En aplicaciones reales, los números primos se emplean en algoritmos más complejos como:
+
+\begin{itemize}
+\item Cifrado de clave pública (RSA)
+\item Protocolos de seguridad como HTTPS
+\item Firmas digitales
+\item Sistemas de autenticación avanzada
+\end{itemize}
+
+Estos sistemas aprovechan propiedades matemáticas avanzadas de los números primos para garantizar un alto nivel de seguridad.
+
+\section{Conclusiones}
+
+Los números primos desempeñan un papel fundamental en la seguridad informática. Su uso permite el desarrollo de sistemas criptográficos que protegen la información frente a amenazas cada vez más sofisticadas.
+
+Asimismo, la correcta creación y gestión de contraseñas sigue siendo un elemento clave en la protección de datos. Aunque el ejemplo presentado en Octave muestra una aplicación sencilla, ilustra cómo los principios matemáticos pueden contribuir a mejorar la seguridad.
+
+En conclusión, la combinación de buenas prácticas en contraseñas y el uso de herramientas matemáticas como los números primos es esencial para garantizar la seguridad en el entorno digital.
+
+\end{document}
